@@ -45,11 +45,11 @@ def main():
     parser.add_argument('-v', '--version', action="store_true", help="show version")
     subparsers = parser.add_subparsers(title="subcommands", help="help for subcommand")
 
-    parser_courses = subparsers.add_parser('courses', help="Show user courses")
-    parser_courses.set_defaults(func=Actions.courses)
-
     parser_auth = subparsers.add_parser('auth', help="Authenticate user")
     parser_auth.set_defaults(func=Actions.auth)
+
+    parser_courses = subparsers.add_parser('courses', help="Show user courses")
+    parser_courses.set_defaults(func=Actions.courses)
 
     parser_alias = subparsers.add_parser('alias', help="Set alias for a course id")
     parser_alias.add_argument("alias", type=str, help="Alias for the course")

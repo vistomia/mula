@@ -68,7 +68,13 @@ class MoodleAPI:
         arqs = soup.findAll('h4', {'id': lambda value: value and value.startswith("fileid")})
         title = soup.find('a', {'href': self.browser.get_url()}).get_text()
         try:
-            descr = soup.find('div', {'class': 'box py-3 generalbox'}).find('div', {'class': 'no-overflow'}).get_text()
+            
+            update_vpl = self.urlHandler.update_vpl(vplid)
+            self.open_url(update_vpl)
+            edit_page = self.browser.page
+            
+            descr_html_with_escape = edit_page.select('#id_introeditor')[0].decode_contents()
+            descr = MoodleAPI.escape_html(descr_html_with_escape)
         except AttributeError:
             descr = ""
 
@@ -81,6 +87,28 @@ class MoodleAPI:
             else:
                 vpl.upload.append(file)
         return vpl
+
+    def escape_html(text: str) -> str:
+        html_entities = {
+            " ": "&nbsp;",  # caractere de espaço não separável (Alt+0160)
+            "<": "&lt;",
+            ">": "&gt;",
+            "&": "&amp;",
+            '"': "&quot;",
+            "'": "&apos;",
+            "¢": "&cent;",
+            "£": "&pound;",
+            "¥": "&yen;",
+            "€": "&euro;",
+            "©": "&copy;",
+            "®": "&reg;",
+            "™": "&trade;",
+        }
+
+        for char, entity in html_entities.items():
+            text = text.replace(entity, char)
+        
+        return text
 
     def set_duedate_field_in_form(self, duedate: Optional[str]):
         if duedate is None:  # unchange default

@@ -75,6 +75,7 @@ class MoodleAPI:
             
             descr_html_with_escape = edit_page.select('#id_introeditor')[0].decode_contents()
             descr = MoodleAPI.escape_html(descr_html_with_escape)
+            descr = descr.replace('<br />', '<br>')
         except AttributeError:
             descr = ""
 

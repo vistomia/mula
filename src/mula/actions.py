@@ -87,7 +87,7 @@ class Actions:
                 os.remove(folder)
             os.mkdir(folder)
             description = data["description"]
-            description_file = os.path.join(folder, "index.html")
+            description_file = os.path.join(folder, "q.html")
             open(description_file, "w").write(description)
             
             for f in data["upload"]:

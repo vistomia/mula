@@ -184,6 +184,20 @@ class Actions:
                 log.fail(": timeout")
 
     @staticmethod
+    def mv(args: argparse.Namespace):
+        if args.course is None:
+            print("course index not defined")
+            print("use --course <course id>")
+            return
+        else:
+            credentials = Credentials.load_credentials()
+            credentials.set_course(args.course)
+        
+        api = MoodleAPI()
+        api.move_to_section(args.id, args.target_section, args.before_id)
+
+
+    @staticmethod
     def list(args: argparse.Namespace):
         if args.course is None:
             print("course index not defined")

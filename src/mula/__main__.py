@@ -62,6 +62,12 @@ def main():
     parser_list.add_argument("-t", "--topic", action='store_true', help="Show only session topics")
     parser_list.set_defaults(func=Actions.list)
 
+    parser_mv = subparsers.add_parser('mv', parents=[p_selection], help="Move problems in Moodle")
+    parser_mv.add_argument("--course", "-c", type=str, help="Moodle course id or alias")
+    parser_mv.add_argument("target_section", type=int, help="Target section to move the problems")
+    parser_mv.add_argument("--before_id", type=int, help="ID of the item before which to insert the moved item")
+    parser_mv.set_defaults(func=Actions.mv)
+
     parser_add = subparsers.add_parser('add', parents=[p_section, p_common], help="Add problems to Moodle")
     parser_add.add_argument("--course", "-c", type=str, help="Moodle course id or alias")
     parser_add.add_argument("--drafts", "-d", type=str, help="language extension")

@@ -20,6 +20,7 @@ class MoodleAPI:
             self.browser.session.hooks['response'].append(RequestTracer.log_formatted)
         self.browser.set_user_agent('Mozilla/5.0')
         self._login()
+        self.sesskey = self.get_sesskey()
 
     def set_task(self, task: Task):
         self.task = task
@@ -206,6 +207,28 @@ class MoodleAPI:
         difference = MoodleAPI.get_removed_files(self.download(qid),vpl)
 
         self.set_keep(qid,0)
+    
+    def get_sesskey(self) -> str:
+        logout_link = self.browser.page.select_one('a[href*="logout.php"]')["href"]
+        sesskey = logout_link.split("sesskey=")[1]
+        return sesskey
+
+    def move_to_section(self, qid: int, section: int, before_qid: int = None ):
+        url = self.urlHandler.rest_api()
+
+        payload = {
+            'sesskey': self.sesskey,
+            'courseId': self.credentials.get_course(),
+            'class': 'resource',
+            'field': 'move',
+            'id': qid,
+            'sectionId': section,
+        }
+
+        if before_qid is not None:
+            payload['beforeId'] = before_qid
+
+        self.browser.session.post(url, data=payload)
 
     def set_execution_options(self, qid: int):
 

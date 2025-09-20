@@ -35,7 +35,7 @@ class StructureLoader:
         section_labels: List[str] = StructureLoader._make_section_labels(topics.contents)
         section_ids: List[int] = StructureLoader._make_section_ids(soup)
         log.done()
-        log.print(soup.title.string)
+        log.print_title(soup.title.string.replace('Curso: ',''))
         return Structure(section_item_list, section_labels, section_ids)
 
     @staticmethod

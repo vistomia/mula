@@ -195,6 +195,24 @@ class Actions:
         
         api = MoodleAPI()
         api.move_to_section(args.id, args.target_section, args.before_id)
+    
+    def rename(args: argparse.Namespace):
+        if args.course is None:
+            print("course index not defined")
+            print("use --course <course id>")
+            return
+        else:
+            credentials = Credentials.load_credentials()
+            credentials.set_course(args.course)
+        
+        structure = StructureLoader.load()
+        if structure.section_ids[args.section] is None:
+            print(f"section {args.section} not found")
+            return
+
+        api = MoodleAPI()
+        api.rename_section(structure.section_ids[args.section], args.new_name)
+        print(f"Renamed section {args.section} to {args.new_name}")
 
 
     @staticmethod

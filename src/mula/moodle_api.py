@@ -230,6 +230,24 @@ class MoodleAPI:
 
         self.browser.session.post(url, data=payload)
 
+    def rename_section(self, section: int, new_name: str):
+        url = self.urlHandler.service() + "?sesskey=" + self.sesskey + "&info=core_course_edit_section"
+
+        payload = [
+            {
+                "index":0,
+                "methodname":"core_update_inplace_editable",
+                "args":{
+                    "itemid":section,
+                    "component":"format_topics",
+                    "itemtype":"sectionname",
+                    "value":new_name
+                }
+            }
+        ]
+
+        self.browser.session.post(url, json=payload)
+
     def set_execution_options(self, qid: int):
 
         self.open_url(self.urlHandler.execution_options(qid))

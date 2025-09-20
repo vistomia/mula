@@ -58,6 +58,9 @@ class URLHandler:
     def rest_api(self):
         return self._url_base + "/course/rest.php"
 
+    def service(self):
+        return self._url_base + "/lib/ajax/service.php"
+
     @staticmethod
     def parse_id(url: str) -> str:
         return url.split("id=")[1].split("&")[0]

@@ -68,6 +68,12 @@ def main():
     parser_mv.add_argument("--before_id", type=int, help="ID of the item before which to insert the moved item")
     parser_mv.set_defaults(func=Actions.mv)
 
+    parser_rename = subparsers.add_parser('rename', parents=[p_selection], help="Rename sections in Moodle")
+    parser_rename.add_argument("--course", "-c", type=str, help="Moodle course id")
+    parser_rename.add_argument("new_name", type=str, help="New name for the section")
+    parser_rename.add_argument("section", type=int, help="Section number to rename")
+    parser_rename.set_defaults(func=Actions.rename)
+
     parser_add = subparsers.add_parser('add', parents=[p_section, p_common], help="Add problems to Moodle")
     parser_add.add_argument("--course", "-c", type=str, help="Moodle course id or alias")
     parser_add.add_argument("--drafts", "-d", type=str, help="language extension")
